@@ -16,7 +16,7 @@ y <- function(n,x)
   (1/2)*(x+(n/x))
 }
 
-# -- Calculo de una raíz por bisección
+# -- Cálculo de una raíz por bisección
 u <- y(n,x)
 
 while( x-u > E)
