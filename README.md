@@ -1,2 +1,2 @@
-# An-lisis-de-algortimos
-Clase de análisis de algoritmos
+# Analisis numerico
+Clase de análisis numérico
