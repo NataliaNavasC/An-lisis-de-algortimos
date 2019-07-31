@@ -1,0 +1,44 @@
+# -------------------------------------------------------------------------------------
+# Código realizado por: 
+# * Natalia Navas
+# * Jorge Salgado 
+# * Sebastián Santamaría
+# -------------------------------------------------------------------------------------
+# Clase análisis numérico mier-vier 1903
+# -------------------------------------------------------------------------------------
+puntofijo=function(g,intervalo0, intervalo1,tol=(10^-8),maxIteraciones=100){
+#contador de iteraciones k
+  k=0
+  x0= intervalo0+intervalo1/2
+  listaIteraciones = c()
+  listaErrores = c()
+  repeat{
+    listaIteraciones = c(listaIteraciones, k)
+    x1=g(x0)
+    dx=abs(x1-x0)/abs(x0)
+    listaErrores= c(listaErrores,dx)
+    x0=x1
+    cat("x_",k,"= ",x1, " con error relativo = ", dx,"\n")
+    
+    k=k+1
+#si k supera el maximo de iteraciones o dx es menor a la tolerancia limite, se detiene
+    if (dx<tol||k>maxIteraciones)break;
+  }
+#si dx es mayor a la tolerancia limite
+  if (dx>tol){
+    cat("no hubo convergencia   ")
+    
+  }else {
+  cat("x* es aproximadamente ", x1, " con error menor que ", tol)
+  }
+  points(listaIteraciones, listaErrores, col="red")
+  lines(listaIteraciones, listaErrores, col = "blue")
+}
+
+g = function(x) ((x^3 -1)/-5);
+#formar el lienzo
+plot(g, xlim=c(1,6), ylim=c(0,0.21), col = "white")
+#linea en 0
+abline(h=0,col="black")
+puntofijo(g,0,1)
+  
