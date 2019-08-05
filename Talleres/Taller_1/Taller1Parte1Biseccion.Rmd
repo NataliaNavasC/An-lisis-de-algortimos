@@ -1,0 +1,76 @@
+# -------------------------------------------------------------------------------------
+# Código realizado por: 
+# * Natalia Navas
+# * Jorge Salgado 
+# * Sebastián Santamaría
+# -------------------------------------------------------------------------------------
+# Clase análisis numérico mier-vier 1903
+# -------------------------------------------------------------------------------------
+
+biseccion = function(f, xa, xb, tol)
+{
+  if( sign(f(xa)) == sign(f(xb)) ){ stop("f(xa) y f(xb) tienen el mismo signo") 
+}
+
+a = xa; b = xb
+k = 0
+cont = 0
+
+# Listas que contendrán los valores a graficar
+listaIteraciones = c()
+listaErrorRel = c()
+
+#Par imprimir estado
+cat("----------------------------------------------------------\n")
+cat(formatC( c("a","b","m","Error est."), width = -15, format = "f", flag = " "), "\n")
+cat("----------------------------------------------------------\n")
+
+repeat
+{
+# Contador de iteraciones
+  cont = cont + 1
+  listaIteraciones = c(listaIteraciones, cont)
+  m = a + 0.5*(b-a)
+  if( f(m)==0 )
+  { 
+    cat("Cero de f en [",xa,",",xb,"] es: ", m ) 
+  }
+  if( sign(f(a)) != sign(f(m)) )
+  {
+    b = m
+  } else { a = m }
+  dx = (b-a)/2
+
+  
+#Aquí se inserta el error relativo en la lista 
+  listaErrorRel = c(listaErrorRel , dx)
+  
+# imprimir estado
+  cat(formatC( c(a,b,m,dx), digits=7, width = -15, format = "f", flag = " "), "\n")
+  k = k+1
+    
+#until
+  if( dx < tol )
+  {
+    cat("----------------------------------------------------------\n\n")
+    cat("Cero de f en [",xa,",",xb,"] es approx: ", m, "con error <=", dx, " El numero de iteraciones es: ", cont)
+    break;
+  }
+} #repeat
+
+# Inserción de puntos y líneas en la gráfica
+points(listaIteraciones, listaErrorRel, col = "red")
+lines(listaIteraciones, listaErrorRel, col = "blue")
+
+}
+
+
+## Pruebas
+f = function(x) ((x^3)+(5*x)-1)
+#curve(f, -2,30, col ="red"); abline(h=0, v=0) #gráfico para decidir un intervalo
+plot(f, xlim=c(0,27), ylim=c(0,0.3), col = "white")
+
+abline(h=0,col="black")
+biseccion(f, 0, 1, 0.00000001)
+
+
